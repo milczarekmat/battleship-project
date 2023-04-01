@@ -1,3 +1,4 @@
+import java.security.SignatureException;
 import java.util.Scanner;
 
 public class Player {
@@ -35,40 +36,36 @@ public class Player {
             char endRow = endingCoords.charAt(0);
             int startCol = Integer.parseInt(String.valueOf(startingCoords.charAt(1)));
             int endCol = Integer.parseInt(String.valueOf(endingCoords.charAt(1)));
-            Ship newShip;
-            try {
-                newShip = new Ship(startRow, endRow, startCol, endCol, size);
-            }
-            catch (IllegalArgumentException e) {
-                //todo zmienic?
-                throw new NumberFormatException();
-            }
+            Ship newShip = new Ship(startRow, endRow, startCol, endCol, size);
             checkIfCoordsAreNotOccupied(newShip);
         }
-        catch (NumberFormatException exception){
-            System.out.println("Error! Wrong format of coordinates! Try again");
+        catch (ShipPlacementException exception){
+            System.out.println("Error!" + exception.getMessage() + " Try again:");
             return false;
         }
+        totalShips++;
         return true;
     }
-    private boolean checkIfCoordsAreNotOccupied(Ship ship) {
+    private void checkIfCoordsAreNotOccupied(Ship ship) throws ShipPlacementException {
         if (ship.getPositioning().equals("vertically")) {
-
+            checkIfCoordsAreNotOccupiedVertically(ship);
         }
-        return true;
+        else {
+            checkIfCoordsAreNotOccupiedHorizontally(ship);
+        }
     }
-/*    private boolean checkIfAddingShipPossible(char startRow, char endRow, int startCol, int endCol, int size) {
-        if (startRow!=endRow && startCol!=endCol) {
-            return false;
+    private void checkIfCoordsAreNotOccupiedVertically(Ship ship) throws ShipPlacementException {
+        int y = ship.getyStartingShipCoordinate();
+        int x = ship.getxStartingShipCoordinate();
+        for (int i=0; i<ship.getSize(); i++, y++) {
+            if (playerMap[y][x] == 'O') {
+                throw new ShipPlacementException("Coordinate already occupied!");
+            }
         }
-        if (startRow-endRow!=size && startCol-endCol!=size) {
-            return false;
-        }
+    }
+    private void checkIfCoordsAreNotOccupiedHorizontally(Ship ship) throws ShipPlacementException {
 
+    }
 
-
-        return checkIfCoordsAreNotOccupied(startRow, endRow, startCol, endCol);
-
-    }*/
 
 }
