@@ -10,7 +10,7 @@ public class Ship {
         if (startRow!=endRow && startCol!=endCol) {
             throw new ShipPlacementException("Wrong ship location!");
         }
-        if (startRow-endRow!=size && Math.abs(startCol-endCol)+1 !=size) {
+        if (Math.abs(startRow-endRow)+1!=size && Math.abs(startCol-endCol)+1 !=size) {
             throw new ShipPlacementException("Wrong length of the Submarine!");
         }
         positioning = startRow == endRow ? "horizontally" : "vertically";
