@@ -1,25 +1,46 @@
 public class Ship {
     private final int size;
     private final String positioning;
+    private int xStartingShipCoordinate;
+    private int yStartingShipCoordinate;
+    private int xEndingShipCoordinate;
+    private int yEndingShipCoordinate;
 
-    private final int xStartingShipCoordinate;
-    private final int yStartingShipCoordinate;
-    private final int xEndingShipCoordinate;
-    private final int yEndingShipCoordinate;
-
-    public Ship(char startRow, char endRow, int startCol, int endCol, int size) throws IllegalArgumentException{
+    public Ship(char startRow, char endRow, int startCol, int endCol, int size) throws ShipPlacementException{
         if (startRow!=endRow && startCol!=endCol) {
-            throw new IllegalArgumentException();
+            throw new ShipPlacementException("Wrong ship location!");
         }
-        if (startRow-endRow!=size && Math.abs(startCol-endCol)+1!=size) {
-            throw new IllegalArgumentException();
+        if (startRow-endRow!=size && Math.abs(startCol-endCol)+1 !=size) {
+            throw new ShipPlacementException("Wrong length of the Submarine!");
         }
-        yStartingShipCoordinate = MapCoordinatesLegend.fromChar(startRow).yCoord;
+        positioning = startRow == endRow ? "horizontally" : "vertically";
+        this.size = size;
+
+        boolean reverse = false;
+        if (positioning.equals("horizontally")) {
+            if (endCol < startCol) {
+                reverse = true;
+            }
+        }
+        else {
+            if (endRow < startRow) {
+                reverse = true;
+            }
+        }
+
+        if (!reverse) {
+            setCoordinates(startRow, endRow, startCol, endCol);
+        }
+        else {
+            setCoordinates(endRow, startRow, endCol, startCol);
+        }
+    }
+
+    private void setCoordinates(char startRow, char endRow, int startCol, int endCol) {
+        this.yStartingShipCoordinate = MapCoordinatesLegend.fromChar(startRow).yCoord;
         yEndingShipCoordinate = MapCoordinatesLegend.fromChar(endRow).yCoord;
         xStartingShipCoordinate = startCol - 1;
         xEndingShipCoordinate = endCol - 1;
-        this.size = size;
-        positioning = startRow == endRow ? "horizontally" : "vertically";
     }
 
     public int getSize() {
