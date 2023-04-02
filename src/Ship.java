@@ -59,11 +59,4 @@ public class Ship {
         return yStartingShipCoordinate;
     }
 
-    public int getxEndingShipCoordinate() {
-        return xEndingShipCoordinate;
-    }
-
-    public int getyEndingShipCoordinate() {
-        return yEndingShipCoordinate;
-    }
 }
