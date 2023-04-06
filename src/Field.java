@@ -16,23 +16,18 @@ public class Field {
     }
 
     public void printMap() {
+        print(map);
+    }
+
+    public void printFoggedMap() {
+        print(foggedMap);
+    }
+
+    private void print(char[][] map) {
         System.out.println("\n  1 2 3 4 5 6 7 8 9 10");
         char[] firstColumn = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
         int i = 0;
         for (char[] row : map) {
-            System.out.print(firstColumn[i++] + " ");
-            for (char cell : row) {
-                System.out.print(cell + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void printFoggedMap() {
-        System.out.println("\n  1 2 3 4 5 6 7 8 9 10");
-        char[] firstColumn = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-        int i = 0;
-        for (char[] row : foggedMap) {
             System.out.print(firstColumn[i++] + " ");
             for (char cell : row) {
                 System.out.print(cell + " ");
