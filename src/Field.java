@@ -1,25 +1,38 @@
 import java.util.Scanner;
 
 public class Field {
-    private final char[][] map = {
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-            {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
-    };
+    private final char[][] map;
+    private final char[][] foggedMap;
+
+    public Field() {
+        map = new char[10][10];
+        foggedMap = new char[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                map[i][j] = '~';
+                foggedMap[i][j] = '~';
+            }
+        }
+    }
 
     public void printMap() {
         System.out.println("\n  1 2 3 4 5 6 7 8 9 10");
         char[] firstColumn = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-        //MapCoordinatesLegend[] firstColumn = MapCoordinatesLegend.values();
         int i = 0;
         for (char[] row : map) {
+            System.out.print(firstColumn[i++] + " ");
+            for (char cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void printFoggedMap() {
+        System.out.println("\n  1 2 3 4 5 6 7 8 9 10");
+        char[] firstColumn = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+        int i = 0;
+        for (char[] row : foggedMap) {
             System.out.print(firstColumn[i++] + " ");
             for (char cell : row) {
                 System.out.print(cell + " ");
@@ -163,9 +176,11 @@ public class Field {
         int[] formattedCoords = formatCoordinates(startingCoords);
         if (map[formattedCoords[0]][formattedCoords[1]] == 'O') {
             map[formattedCoords[0]][formattedCoords[1]] = 'X';
+            foggedMap[formattedCoords[0]][formattedCoords[1]] = 'X';
             return true;
         }
         map[formattedCoords[0]][formattedCoords[1]] = 'M';
+        foggedMap[formattedCoords[0]][formattedCoords[1]] = 'M';
         return false;
     }
 }

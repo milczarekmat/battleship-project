@@ -31,16 +31,17 @@ public class Main {
             field.printMap();
 
             System.out.println("\nThe game starts!");
-            field.printMap();
+            field.printFoggedMap();
             while (true) {
                 try {
                     if (field.takeAShot(scanner.next())) {
-                        field.printMap();
+                        field.printFoggedMap();
                         System.out.println("You hit a ship!");
                     } else {
-                        field.printMap();
+                        field.printFoggedMap();
                         System.out.println("You missed");
                     }
+                    field.printMap();
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Faulty coordinates!");
                     continue;
