@@ -3,44 +3,36 @@ public class Ship {
     private final String positioning;
     private int xStartingShipCoordinate;
     private int yStartingShipCoordinate;
-    private int xEndingShipCoordinate;
-    private int yEndingShipCoordinate;
 
-    public Ship(char startRow, char endRow, int startCol, int endCol, int size) throws ShipPlacementException{
-        if (startRow!=endRow && startCol!=endCol) {
+    public Ship(char startRow, char endRow, int startCol, int endCol, int size) throws ShipPlacementException {
+        if (startRow != endRow && startCol != endCol) {
             throw new ShipPlacementException("Wrong ship location!");
         }
-        if (Math.abs(startRow-endRow)+1!=size && Math.abs(startCol-endCol)+1 !=size) {
+        if (Math.abs(startRow - endRow) + 1 != size && Math.abs(startCol - endCol) + 1 != size) {
             throw new ShipPlacementException("Wrong length of the Submarine!");
         }
         positioning = startRow == endRow ? "horizontally" : "vertically";
         this.size = size;
 
-        boolean reverse = false;
         if (positioning.equals("horizontally")) {
             if (endCol < startCol) {
-                reverse = true;
+                setCoordinates(endRow, endCol);
+                return;
             }
-        }
-        else {
+        } else {
             if (endRow < startRow) {
-                reverse = true;
+                setCoordinates(endRow, endCol);
+                return;
             }
         }
 
-        if (!reverse) {
-            setCoordinates(startRow, endRow, startCol, endCol);
-        }
-        else {
-            setCoordinates(endRow, startRow, endCol, startCol);
-        }
+        setCoordinates(startRow, startCol);
+
     }
 
-    private void setCoordinates(char startRow, char endRow, int startCol, int endCol) {
-        this.yStartingShipCoordinate = MapCoordinatesLegend.fromChar(startRow).yCoord;
-        yEndingShipCoordinate = MapCoordinatesLegend.fromChar(endRow).yCoord;
-        xStartingShipCoordinate = startCol - 1;
-        xEndingShipCoordinate = endCol - 1;
+    private void setCoordinates(char y, int x) {
+        yStartingShipCoordinate = MapCoordinatesLegend.fromChar(y).yCoord;
+        xStartingShipCoordinate = x - 1;
     }
 
     public int getSize() {
