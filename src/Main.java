@@ -32,12 +32,20 @@ public class Main {
 
             System.out.println("\nThe game starts!");
             field.printMap();
-            if (field.takeAShot(scanner.next())) {
-                field.printMap();
-                System.out.println("You hit a ship!");
-            } else {
-                field.printMap();
-                System.out.println("You missed");
+            while (true) {
+                try {
+                    if (field.takeAShot(scanner.next())) {
+                        field.printMap();
+                        System.out.println("You hit a ship!");
+                    } else {
+                        field.printMap();
+                        System.out.println("You missed");
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Faulty coordinates!");
+                    continue;
+                }
+                break;
             }
         }
     }
