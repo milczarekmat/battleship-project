@@ -10,9 +10,11 @@ public enum MapCoordinatesLegend {
     I(8),
     J(9);
     final int yCoord;
+
     MapCoordinatesLegend(int yCoord) {
         this.yCoord = yCoord;
     }
+
     public static MapCoordinatesLegend fromChar(char c) {
         String charAsString = Character.toString(c);
         return MapCoordinatesLegend.valueOf(charAsString);
