@@ -4,7 +4,7 @@ public class Ship {
     private int xStartingShipCoordinate;
     private int yStartingShipCoordinate;
 
-    public Ship(char startRow, char endRow, int startCol, int endCol, int size) throws ShipPlacementException {
+    public Ship(int startRow, int endRow, int startCol, int endCol, int size) throws ShipPlacementException {
         if (startRow != endRow && startCol != endCol) {
             throw new ShipPlacementException("Wrong ship location!");
         }
@@ -27,12 +27,11 @@ public class Ship {
         }
 
         setCoordinates(startRow, startCol);
-
     }
 
-    private void setCoordinates(char y, int x) {
-        yStartingShipCoordinate = MapCoordinatesLegend.fromChar(y).yCoord;
-        xStartingShipCoordinate = x - 1;
+    private void setCoordinates(int y, int x) {
+        yStartingShipCoordinate = y;
+        xStartingShipCoordinate = x;
     }
 
     public int getSize() {
