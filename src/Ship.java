@@ -49,5 +49,4 @@ public class Ship {
     public int getyStartingShipCoordinate() {
         return yStartingShipCoordinate;
     }
-
 }

@@ -36,15 +36,20 @@ public class Main {
                 try {
                     if (field.takeAShot(scanner.next())) {
                         field.printFoggedMap();
-                        System.out.println("You hit a ship!");
+                        System.out.print("You hit a ship!");
                     } else {
                         field.printFoggedMap();
-                        System.out.println("You missed");
+                        System.out.print("You missed.");
                     }
-                    field.printMap();
+                    System.out.println(" Try again:");
+                    field.printFoggedMap();
+                    continue;
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Faulty coordinates!");
                     continue;
+                } catch (Exception e) {
+                    field.printMap();
+                    System.out.println("You sank the last ship. You won. Congratulations!");
                 }
                 break;
             }

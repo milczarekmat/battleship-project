@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Field {
     private final char[][] map;
     private final char[][] foggedMap;
+    private final ArrayList<Ship> ships = new ArrayList<>();
 
     public Field() {
         map = new char[10][10];
@@ -59,12 +61,12 @@ public class Field {
     }
 
     private int[] formatCoordinates(String starting, String ending) {
-        return new int[]{starting.charAt(0) - '@' - 1, ending.charAt(0) - '@' - 1,
+        return new int[]{starting.toUpperCase().charAt(0) - '@' - 1, ending.toUpperCase().charAt(0) - '@' - 1,
                 Integer.parseInt(starting.substring(1)) - 1, Integer.parseInt(ending.substring(1)) - 1};
     }
 
     private int[] formatCoordinates(String coords) {
-        return new int[]{coords.charAt(0) - '@' - 1, Integer.parseInt(coords.substring(1)) - 1};
+        return new int[]{coords.toUpperCase().charAt(0) - '@' - 1, Integer.parseInt(coords.substring(1)) - 1};
     }
 
     private void checkIfCoordsAreNotOccupied(Ship ship) throws ShipPlacementException {
@@ -153,6 +155,7 @@ public class Field {
         } else {
             putShipOnMapHorizontally(ship, y, x);
         }
+        ships.add(ship);
     }
 
     private void putShipOnMapVertically(Ship ship, int y, int x) {
@@ -167,15 +170,46 @@ public class Field {
         }
     }
 
-    public boolean takeAShot(String startingCoords) {
+    public boolean takeAShot(String startingCoords) throws Exception {
         int[] formattedCoords = formatCoordinates(startingCoords);
         if (map[formattedCoords[0]][formattedCoords[1]] == 'O') {
             map[formattedCoords[0]][formattedCoords[1]] = 'X';
             foggedMap[formattedCoords[0]][formattedCoords[1]] = 'X';
+            if (checkIfGameOver()) {
+                throw new Exception();
+            }
             return true;
         }
         map[formattedCoords[0]][formattedCoords[1]] = 'M';
         foggedMap[formattedCoords[0]][formattedCoords[1]] = 'M';
+        return false;
+    }
+
+    private boolean checkIfGameOver() {
+        for (Ship ship : ships) {
+            if (checkIfShipIsAlive(ship)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkIfShipIsAlive(Ship ship) {
+        int x = ship.getxStartingShipCoordinate(),
+                y = ship.getyStartingShipCoordinate();
+        if (ship.getPositioning().equals("horizontally")) {
+            for (int i = 0; i < ship.getSize(); i++) {
+                if (map[y][x++] != 'X') {
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < ship.getSize(); i++) {
+                if (map[y++][x] != 'X') {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }
