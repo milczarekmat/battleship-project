@@ -179,6 +179,8 @@ public class Field {
                 throw new Exception();
             }
             return true;
+        } else if (map[formattedCoords[0]][formattedCoords[1]] == 'X') {
+            return true;
         }
         map[formattedCoords[0]][formattedCoords[1]] = 'M';
         foggedMap[formattedCoords[0]][formattedCoords[1]] = 'M';
